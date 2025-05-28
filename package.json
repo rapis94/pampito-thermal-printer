@@ -1,0 +1,32 @@
+{
+  "name": "pampito2.0",
+  "version": "1.0.0",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "build": {
+    "appId": "com.pampito.impresion",
+    "win": {
+      "target": "nsis"
+    }
+  },
+ 
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "escpos-usb": "^3.0.0-alpha.4",
+    "express": "^5.1.0",
+    "iconv-lite": "^0.6.3",
+    "sharp": "^0.34.1"
+  },
+  "devDependencies": {
+    "electron": "^35.1.5",
+    "electron-builder": "^26.0.12"
+  }
+}

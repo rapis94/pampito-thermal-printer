@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Historial de Impresiones</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 2rem;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        th,
+        td {
+            border: 1px solid #aaa;
+            padding: 0.5rem;
+            text-align: left;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        #splash {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            width: calc(100% - 50px);
+            color: black;
+            background-color: white;
+            height: 100vh;
+            padding: 25px;
+        }
+
+        a{
+            cursor: pointer;
+        }
+
+        .oculto {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <center>
+        <img src="pampito.png" width="256">
+        <h1>🖨 Historial de Impresiones</h1>
+        <a onclick="document.getElementById('splash').classList.remove('oculto')">Acerca de...</a>
+    </center>
+
+    <div id="splash" class="oculto">
+        <a onclick="document.getElementById('splash').classList.add('oculto')">x Cerrar</a>
+
+        <p>
+            Por consultas, cotizaciones o solicitudes: llc94@hotmail.es
+        </p>
+
+        <h4>Espero que Pampito esté siendo de utilidad para vos</h4>
+        <p>
+            El software Pampito Printer Manager está especialmente diseñado para facilitar la conexión de un sistema web
+            con una impresora térmica.
+            <br>
+            Es ideal para Puntos de Venta, software de rubro gastronómico y similares donde sea necesario implementar la
+            impresión de tickets.
+        </p>
+        <h4>¿Por qué Pampito Printer Manager es gratis?</h4>
+        <p>
+            Pampito Printer Manager es gratis, ya que es gracias a Internet que yo he podido desenvolver mi carrera como
+            desarrollador. Así que en retribución a todos aquellos héroes anonimos que hicieron mi vida un poquito mas
+            fácil, yo quiero ofrecer mi granito de arena para ellos y las generaciones futuras de desarrolladores.
+        </p>
+
+        <h4>¿Aun así puedo contribuir de alguna forma?</h4>
+        <p>
+            Siempre podés comprar un café y hacer que ese día me tome un cafe como la gente de forma inesperada
+        </p>
+        <a href="https://www.buymeacoffee.com/rapis94" target="_blank"><img
+                src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee"
+                style="height: 60px !important;width: 217px !important;"></a>
+    </div>
+    <a href="https://www.buymeacoffee.com/rapis94" target="_blank"><img
+            src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee"
+            style="height: 60px !important;width: 217px !important;"></a>
+    <table>
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Impresora</th>
+                <th>Hostname</th>
+            </tr>
+        </thead>
+        <tbody id="tablaHistorial">
+            <tr>
+                <td colspan="3">Cargando...</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+        async function cargarHistorial() {
+            try {
+                const res = await fetch("http://localhost:5000/api/historial");
+                const data = await res.json();
+
+                const tbody = document.getElementById("tablaHistorial");
+                tbody.innerHTML = "";
+
+                if (data.length === 0) {
+                    tbody.innerHTML = "<tr><td colspan='3'>No hay impresiones aún</td></tr>";
+                    return;
+                }
+
+                for (const item of data.reverse()) {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${item.fecha}</td>
+                        <td>${item.impresora}</td>
+                        <td>${item.hostname}</td>
+                    `;
+                    tbody.appendChild(row);
+                }
+
+            } catch (err) {
+                console.error("Error cargando historial", err);
+            }
+        }
+
+        setInterval(cargarHistorial, 2000); // refrescar cada 2 segundos
+        cargarHistorial(); // primer carga
+    </script>
+
+
+
+
+</body>
+
+
+</html>
