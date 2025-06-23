@@ -1,23 +1,39 @@
-¿Qué es Pampito Thermal Printer?
+<h2>What is Pampito Thermal Printer?</h2>
+Pampito Thermal Printer is a REST API that allows you to connect your systems to Windows shared thermal printers. Built with Node.js and Electron, it provides a simple application that handles sending print commands to the designated printer.
+<br>
+<h4>Key Requirements:</h4>
+The printer must be shared, available, and have write permissions on the machine where the service is running.
+<br>
+The API is designed to handle POST requests to http://localhost:5000. Each request must include a JSON object with the following structure:
 
-Pampito Thermal Printer es una APIRest que nos permite conectar nuestros sistemas con impresoras compartidas de Windows. Creado en NodeJS con la colaboración de Electron, nos permite tener una aplicación sencilla que se encargue de entregar la información la impresora deisgnada.
-
-Para comenzar, debe tomarse a consideración los siguientes puntos:<br>
+<h4>JSON Structure:</h4>
+<pre>
+{
+  "impresora": "SharedPrinterName",
+  "Hostname": "ComputerNameOrIP",
+  "comandos": [
+    {
+      "tipo": "CommandType",
+      "valor": "CommandValue",
+      "max": "OptionalMaxWidthForImages"
+    }
+  ]
+}
+</pre>
+<h4>JSON Fields:</h4>
 <ul>
-    <li>
-La impresora debe estar compartida, disponible y con permisos de escritura en el equipo donde se ejecuta el servicio.
-    </li>
-    <li>
-        La API está prepara para recibir una solicitud POST a la ruta "http://localhost:5000", un objeto JSON con los datos "impresora" con el nombre compartido de la impresora, "Hostname" con la IP o Nombre del equipo al que está conectada y "comandos" que es un array de objetos que debe contener a su vez tres propiedades cada uno:
-        <ul>
-            <li>"tipo": es un string que debe tener uno de los valores aceptados "alinieacion", "tamano", "texto", "negrita", "corte", "beep", "reset" o "imagen".</li>
-            <li>"valor": con el valor que le asignaremos a ese comando (ejemplo, si enviamos "alineacion", deberiamos enviar 0, 1 o 2 para alinear a la izquierda, centro o derecha respectivamente.</li>
-            <li>"max": solo aplicable al comando "imagen" para indicar el ancho de la misma.</li>
-        </ul>
+    <li>impresora: The shared name of the target printer.</li>
+    <li>Hostname: The IP address or hostname of the computer where the printer is connected.</li>
+    <li>comandos: An array of command objects. Each object must include:
+    <ul>
+        <li>
+            tipo: A string indicating the type of command. Accepted values are: "alineacion", "tamano", "texto", "negrita", "corte", "beep", "reset", or "imagen".
+        </li>
+        <li>valor: The value associated with the command. For example, if the type is "alineacion", the value should be 0, 1, or 2 for left, center, or right alignment, respectively.</li>
+        <li>max: (Optional) Only used with the "imagen" command to specify the maximum width of the image.</li>
+    </ul>
     </li>
     
 </ul>
 
-
-
-Probalo, es mas fácil y útil de lo que parece.
+<h3>Try it out — it's easier and more useful than you think!</h3>
